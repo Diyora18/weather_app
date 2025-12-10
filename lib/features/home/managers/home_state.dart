@@ -9,16 +9,18 @@ abstract class HomeState with _$HomeState {
   const factory HomeState({
     String? cityImageUrl,
     String? error,
-    bool? loading,
+    @Default(false) bool loading,
     WeatherModel? weather,
+    @Default([]) List<WeatherModel> savedLocations,
     PredictionModel? predictionModel,
   }) = _HomeState;
 
-  factory HomeState.initial() => HomeState(
+  factory HomeState.initial() => const HomeState(
+    cityImageUrl: null,
     error: null,
     loading: false,
     weather: null,
-    cityImageUrl: null,
+    savedLocations: [],
     predictionModel: null,
   );
 }

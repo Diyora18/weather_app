@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$HomeState {
 
- String? get cityImageUrl; String? get error; bool? get loading; WeatherModel? get weather; PredictionModel? get predictionModel;
+ String? get cityImageUrl; String? get error; bool get loading; WeatherModel? get weather; List<WeatherModel> get savedLocations; PredictionModel? get predictionModel;
 /// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $HomeStateCopyWith<HomeState> get copyWith => _$HomeStateCopyWithImpl<HomeState>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeState&&(identical(other.cityImageUrl, cityImageUrl) || other.cityImageUrl == cityImageUrl)&&(identical(other.error, error) || other.error == error)&&(identical(other.loading, loading) || other.loading == loading)&&(identical(other.weather, weather) || other.weather == weather)&&(identical(other.predictionModel, predictionModel) || other.predictionModel == predictionModel));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeState&&(identical(other.cityImageUrl, cityImageUrl) || other.cityImageUrl == cityImageUrl)&&(identical(other.error, error) || other.error == error)&&(identical(other.loading, loading) || other.loading == loading)&&(identical(other.weather, weather) || other.weather == weather)&&const DeepCollectionEquality().equals(other.savedLocations, savedLocations)&&(identical(other.predictionModel, predictionModel) || other.predictionModel == predictionModel));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,cityImageUrl,error,loading,weather,predictionModel);
+int get hashCode => Object.hash(runtimeType,cityImageUrl,error,loading,weather,const DeepCollectionEquality().hash(savedLocations),predictionModel);
 
 @override
 String toString() {
-  return 'HomeState(cityImageUrl: $cityImageUrl, error: $error, loading: $loading, weather: $weather, predictionModel: $predictionModel)';
+  return 'HomeState(cityImageUrl: $cityImageUrl, error: $error, loading: $loading, weather: $weather, savedLocations: $savedLocations, predictionModel: $predictionModel)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $HomeStateCopyWith<$Res>  {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) _then) = _$HomeStateCopyWithImpl;
 @useResult
 $Res call({
- String? cityImageUrl, String? error, bool? loading, WeatherModel? weather, PredictionModel? predictionModel
+ String? cityImageUrl, String? error, bool loading, WeatherModel? weather, List<WeatherModel> savedLocations, PredictionModel? predictionModel
 });
 
 
@@ -62,13 +62,14 @@ class _$HomeStateCopyWithImpl<$Res>
 
 /// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? cityImageUrl = freezed,Object? error = freezed,Object? loading = freezed,Object? weather = freezed,Object? predictionModel = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? cityImageUrl = freezed,Object? error = freezed,Object? loading = null,Object? weather = freezed,Object? savedLocations = null,Object? predictionModel = freezed,}) {
   return _then(_self.copyWith(
 cityImageUrl: freezed == cityImageUrl ? _self.cityImageUrl : cityImageUrl // ignore: cast_nullable_to_non_nullable
 as String?,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
-as String?,loading: freezed == loading ? _self.loading : loading // ignore: cast_nullable_to_non_nullable
-as bool?,weather: freezed == weather ? _self.weather : weather // ignore: cast_nullable_to_non_nullable
-as WeatherModel?,predictionModel: freezed == predictionModel ? _self.predictionModel : predictionModel // ignore: cast_nullable_to_non_nullable
+as String?,loading: null == loading ? _self.loading : loading // ignore: cast_nullable_to_non_nullable
+as bool,weather: freezed == weather ? _self.weather : weather // ignore: cast_nullable_to_non_nullable
+as WeatherModel?,savedLocations: null == savedLocations ? _self.savedLocations : savedLocations // ignore: cast_nullable_to_non_nullable
+as List<WeatherModel>,predictionModel: freezed == predictionModel ? _self.predictionModel : predictionModel // ignore: cast_nullable_to_non_nullable
 as PredictionModel?,
   ));
 }
@@ -154,10 +155,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? cityImageUrl,  String? error,  bool? loading,  WeatherModel? weather,  PredictionModel? predictionModel)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? cityImageUrl,  String? error,  bool loading,  WeatherModel? weather,  List<WeatherModel> savedLocations,  PredictionModel? predictionModel)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _HomeState() when $default != null:
-return $default(_that.cityImageUrl,_that.error,_that.loading,_that.weather,_that.predictionModel);case _:
+return $default(_that.cityImageUrl,_that.error,_that.loading,_that.weather,_that.savedLocations,_that.predictionModel);case _:
   return orElse();
 
 }
@@ -175,10 +176,10 @@ return $default(_that.cityImageUrl,_that.error,_that.loading,_that.weather,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? cityImageUrl,  String? error,  bool? loading,  WeatherModel? weather,  PredictionModel? predictionModel)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? cityImageUrl,  String? error,  bool loading,  WeatherModel? weather,  List<WeatherModel> savedLocations,  PredictionModel? predictionModel)  $default,) {final _that = this;
 switch (_that) {
 case _HomeState():
-return $default(_that.cityImageUrl,_that.error,_that.loading,_that.weather,_that.predictionModel);case _:
+return $default(_that.cityImageUrl,_that.error,_that.loading,_that.weather,_that.savedLocations,_that.predictionModel);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -195,10 +196,10 @@ return $default(_that.cityImageUrl,_that.error,_that.loading,_that.weather,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? cityImageUrl,  String? error,  bool? loading,  WeatherModel? weather,  PredictionModel? predictionModel)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? cityImageUrl,  String? error,  bool loading,  WeatherModel? weather,  List<WeatherModel> savedLocations,  PredictionModel? predictionModel)?  $default,) {final _that = this;
 switch (_that) {
 case _HomeState() when $default != null:
-return $default(_that.cityImageUrl,_that.error,_that.loading,_that.weather,_that.predictionModel);case _:
+return $default(_that.cityImageUrl,_that.error,_that.loading,_that.weather,_that.savedLocations,_that.predictionModel);case _:
   return null;
 
 }
@@ -210,13 +211,20 @@ return $default(_that.cityImageUrl,_that.error,_that.loading,_that.weather,_that
 
 
 class _HomeState implements HomeState {
-  const _HomeState({this.cityImageUrl, this.error, this.loading, this.weather, this.predictionModel});
+  const _HomeState({this.cityImageUrl, this.error, this.loading = false, this.weather, final  List<WeatherModel> savedLocations = const [], this.predictionModel}): _savedLocations = savedLocations;
   
 
 @override final  String? cityImageUrl;
 @override final  String? error;
-@override final  bool? loading;
+@override@JsonKey() final  bool loading;
 @override final  WeatherModel? weather;
+ final  List<WeatherModel> _savedLocations;
+@override@JsonKey() List<WeatherModel> get savedLocations {
+  if (_savedLocations is EqualUnmodifiableListView) return _savedLocations;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_savedLocations);
+}
+
 @override final  PredictionModel? predictionModel;
 
 /// Create a copy of HomeState
@@ -229,16 +237,16 @@ _$HomeStateCopyWith<_HomeState> get copyWith => __$HomeStateCopyWithImpl<_HomeSt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomeState&&(identical(other.cityImageUrl, cityImageUrl) || other.cityImageUrl == cityImageUrl)&&(identical(other.error, error) || other.error == error)&&(identical(other.loading, loading) || other.loading == loading)&&(identical(other.weather, weather) || other.weather == weather)&&(identical(other.predictionModel, predictionModel) || other.predictionModel == predictionModel));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomeState&&(identical(other.cityImageUrl, cityImageUrl) || other.cityImageUrl == cityImageUrl)&&(identical(other.error, error) || other.error == error)&&(identical(other.loading, loading) || other.loading == loading)&&(identical(other.weather, weather) || other.weather == weather)&&const DeepCollectionEquality().equals(other._savedLocations, _savedLocations)&&(identical(other.predictionModel, predictionModel) || other.predictionModel == predictionModel));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,cityImageUrl,error,loading,weather,predictionModel);
+int get hashCode => Object.hash(runtimeType,cityImageUrl,error,loading,weather,const DeepCollectionEquality().hash(_savedLocations),predictionModel);
 
 @override
 String toString() {
-  return 'HomeState(cityImageUrl: $cityImageUrl, error: $error, loading: $loading, weather: $weather, predictionModel: $predictionModel)';
+  return 'HomeState(cityImageUrl: $cityImageUrl, error: $error, loading: $loading, weather: $weather, savedLocations: $savedLocations, predictionModel: $predictionModel)';
 }
 
 
@@ -249,7 +257,7 @@ abstract mixin class _$HomeStateCopyWith<$Res> implements $HomeStateCopyWith<$Re
   factory _$HomeStateCopyWith(_HomeState value, $Res Function(_HomeState) _then) = __$HomeStateCopyWithImpl;
 @override @useResult
 $Res call({
- String? cityImageUrl, String? error, bool? loading, WeatherModel? weather, PredictionModel? predictionModel
+ String? cityImageUrl, String? error, bool loading, WeatherModel? weather, List<WeatherModel> savedLocations, PredictionModel? predictionModel
 });
 
 
@@ -266,13 +274,14 @@ class __$HomeStateCopyWithImpl<$Res>
 
 /// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? cityImageUrl = freezed,Object? error = freezed,Object? loading = freezed,Object? weather = freezed,Object? predictionModel = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? cityImageUrl = freezed,Object? error = freezed,Object? loading = null,Object? weather = freezed,Object? savedLocations = null,Object? predictionModel = freezed,}) {
   return _then(_HomeState(
 cityImageUrl: freezed == cityImageUrl ? _self.cityImageUrl : cityImageUrl // ignore: cast_nullable_to_non_nullable
 as String?,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
-as String?,loading: freezed == loading ? _self.loading : loading // ignore: cast_nullable_to_non_nullable
-as bool?,weather: freezed == weather ? _self.weather : weather // ignore: cast_nullable_to_non_nullable
-as WeatherModel?,predictionModel: freezed == predictionModel ? _self.predictionModel : predictionModel // ignore: cast_nullable_to_non_nullable
+as String?,loading: null == loading ? _self.loading : loading // ignore: cast_nullable_to_non_nullable
+as bool,weather: freezed == weather ? _self.weather : weather // ignore: cast_nullable_to_non_nullable
+as WeatherModel?,savedLocations: null == savedLocations ? _self._savedLocations : savedLocations // ignore: cast_nullable_to_non_nullable
+as List<WeatherModel>,predictionModel: freezed == predictionModel ? _self.predictionModel : predictionModel // ignore: cast_nullable_to_non_nullable
 as PredictionModel?,
   ));
 }

@@ -17,66 +17,38 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       LoadEvent event,
       Emitter<HomeState> emit,
       ) async {
-    emit(
-      state.copyWith(
-        loading: true,
-        error: null,
-        weather: null,
-        cityImageUrl: null,
-        predictionModel: null,
-      ),
-    );
+    emit(state.copyWith(loading: true, error: null));
 
-    // 1️⃣ Weather API
-    final weatherResult = await weatherRepo.getWeather(event.city);
+    try {
+      // 1️⃣ Weather
+      final weather = await weatherRepo.getWeather(event.city).then(
+            (res) => res.fold((l) => throw l, (r) => r),
+      );
 
-    await weatherResult.fold(
-          (error) async {
-        emit(state.copyWith(
-          loading: false,
-          error: error.toString(),
-        ));
-      },
-          (weather) async {
-        // 2️⃣ Image API
-        final imgResult = await imageRepo.getCityImage(event.city);
+      // Weather darhol qo‘shiladi
+      emit(state.copyWith(
+        savedLocations: List.from(state.savedLocations)..add(weather),
+      ));
 
-        String? cityImageUrl;
-        imgResult.fold(
-              (imgError) {
-            emit(state.copyWith(
-              loading: false,
-              weather: weather,
-              error: imgError.toString(),
-            ));
-          },
-              (imgUrl) {
-            cityImageUrl = imgUrl;
-          },
-        );
+      // 2️⃣ Image
+      final cityImageUrl = await imageRepo.getCityImage(event.city)
+          .then((res) => res.fold((_) => null, (r) => r));
 
+      // 3️⃣ Prediction
+      final predictionModel = await weatherRepo.getPrediction(event.city)
+          .then((res) => res.fold((_) => null, (r) => r));
 
-        final predictionResult = await weatherRepo.getPrediction(event.city);
-        predictionResult.fold(
-              (predictionError) {
-            emit(state.copyWith(
-              loading: false,
-              weather: weather,
-              cityImageUrl: cityImageUrl,
-              error: predictionError.toString(),
-            ));
-          },
-              (predictionModel) {
-            emit(state.copyWith(
-              loading: false,
-              weather: weather,
-              cityImageUrl: cityImageUrl,
-              predictionModel: predictionModel,
-            ));
-          },
-        );
-      },
-    );
+      emit(state.copyWith(
+        cityImageUrl: cityImageUrl,
+        predictionModel: predictionModel,
+        loading: false,
+      ));
+
+    } catch (e) {
+      emit(state.copyWith(
+        loading: false,
+        error: e.toString(),
+      ));
+    }
   }
-
 }
