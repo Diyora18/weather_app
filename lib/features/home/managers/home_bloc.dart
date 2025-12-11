@@ -25,8 +25,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             (res) => res.fold((l) => throw l, (r) => r),
       );
 
-      // Weather darhol qo‘shiladi
       emit(state.copyWith(
+        weather: weather,
         savedLocations: List.from(state.savedLocations)..add(weather),
       ));
 
@@ -34,7 +34,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       final cityImageUrl = await imageRepo.getCityImage(event.city)
           .then((res) => res.fold((_) => null, (r) => r));
 
-      // 3️⃣ Prediction
+      // 3️⃣ Forecast
       final predictionModel = await weatherRepo.getPrediction(event.city)
           .then((res) => res.fold((_) => null, (r) => r));
 
@@ -51,4 +51,5 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       ));
     }
   }
+
 }
